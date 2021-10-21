@@ -24,6 +24,21 @@ class MainActivity : AppCompatActivity() {
         getJsonData(lat,long)
     }
 
+private fun getJsonData(lat: String?, long: String?) {
+        var API_key="dfe3456d984d75020cc2bc56a4afff31"
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${API_key}"
+
+        val JsonRequest = JsonObjectRequest(
+            Request.Method.GET, url,null,
+            Response.Listener{ response ->
+                setValues(response)
+            },
+Response.ErrorListener { Toast.makeText(this, "ERROR", Toast.LENGTH_LONG).show()})
+
+        window.statusBarColor= Color.parseColor("#1383c8")//change colour of status bar on which the battery is shown
+        queue.add(JsonRequest)
+    }
 
 private fun setValues(response: JSONObject){
     city.text=response.getString("name")
